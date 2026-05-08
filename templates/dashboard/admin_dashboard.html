@@ -1,0 +1,671 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DharmaFab | Operations Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --brand-gold: #E09D3F; 
+            --bg-dark: #0f172a; 
+            --card-dark: #1e293b; 
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-dark); 
+            color: #f8fafc; 
+        }
+        .serif { font-family: 'Playfair Display', serif; }
+        .sidebar-link { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
+        .console-card { 
+            background: var(--card-dark); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .status-dot { animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 99px; }
+
+        /* Progress bar animation */
+        .bar-fill { transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+
+        /* Row slide in */
+        .row-reveal { opacity: 0; transform: translateX(-8px); transition: all 0.5s ease; }
+        .row-reveal.in { opacity: 1; transform: translateX(0); }
+
+        /* Status badges */
+        .badge-new    { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+        .badge-read   { background: rgba(148,163,184,0.15); color: #94a3b8; border: 1px solid rgba(148,163,184,0.3); }
+        .badge-urgent { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+        /* Sidebar active */
+        .sidebar-active { background: #E09D3F !important; color: #0f172a !important; font-weight: 700; border-radius: 0.5rem; }
+
+        /* Mobile sidebar */
+        #mobile-sidebar { transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+        #mobile-sidebar.open { transform: translateX(0); }
+        #sidebar-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        #sidebar-overlay.open { opacity: 1; pointer-events: all; }
+
+        /* Notification dot */
+        .notif-badge { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: #ef4444; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; border: 2px solid var(--bg-dark); }
+
+        /* Search highlight */
+        mark { background: rgba(224,157,63,0.3); color: #FFB44B; border-radius: 2px; }
+        
+        /* Interactive actions */
+        .action-btn { transition: all 0.2s ease; }
+        .action-btn:hover { transform: translateY(-2px); }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+
+<!-- HEADER -->
+<header class="h-16 bg-[#1e293b] border-b border-white/10 px-6 flex justify-between items-center sticky top-0 z-50 flex-shrink-0 shadow-sm">
+    <div class="flex items-center gap-5">
+        <button id="mobile-menu-btn" class="lg:hidden w-8 h-8 flex flex-col gap-1.5 items-center justify-center" onclick="toggleSidebar()">
+            <span class="w-5 h-px bg-white/60"></span>
+            <span class="w-4 h-px bg-white/60"></span>
+            <span class="w-5 h-px bg-white/60"></span>
+        </button>
+
+        <div class="flex items-center gap-4 pr-5 border-r border-white/10">
+            <div class="w-8 h-8 bg-[#E09D3F] flex items-center justify-center rounded-md flex-shrink-0 shadow-lg shadow-amber-500/20">
+                <span class="text-[#0f172a] text-xs font-black uppercase tracking-tighter">DF</span>
+            </div>
+            <h1 class="text-sm font-bold tracking-widest uppercase text-white hidden sm:block">Operations <span class="text-[#E09D3F]">Control</span></h1>
+        </div>
+
+        <div class="hidden md:flex items-center gap-5">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 status-dot shadow-[0_0_8px_#10b981]"></span>
+                <span class="text-xs font-mono text-slate-400 uppercase tracking-widest">System Secure</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-6">
+        <span id="hdr-clock" class="hidden md:block text-xs font-mono text-[#E09D3F] uppercase tracking-widest bg-white/5 px-3 py-1.5 rounded-md"></span>
+
+        <!-- Notifications -->
+        <div class="relative">
+            <button id="notif-btn" onclick="toggleNotifications()" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-[#E09D3F] hover:bg-white/10 transition-all">
+                <i data-lucide="bell" class="w-4 h-4"></i>
+            </button>
+            <span class="notif-badge" id="notif-count">3</span>
+        </div>
+
+        <div id="notif-dropdown" class="hidden absolute top-16 right-24 w-80 bg-[#1e293b] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
+            <div class="px-5 py-4 border-b border-white/10 flex items-center justify-between bg-white/5">
+                <span class="text-xs uppercase tracking-widest font-bold text-white">Notifications</span>
+                <button onclick="clearNotifications()" class="text-xs uppercase tracking-widest text-[#E09D3F] hover:text-white transition-colors">Clear All</button>
+            </div>
+            <div id="notif-list" class="divide-y divide-white/5 max-h-72 overflow-y-auto">
+                <div class="px-5 py-4 hover:bg-white/5 transition-all cursor-pointer">
+                    <p class="text-sm text-white font-medium mb-1">New inquiry from Rajesh Mehta</p>
+                    <p class="text-xs text-slate-400 font-mono">2 mins ago · Bulk Manufacturing</p>
+                </div>
+                <div class="px-5 py-4 hover:bg-white/5 transition-all cursor-pointer">
+                    <p class="text-sm text-white font-medium mb-1">Sample request — EuroFashion AG</p>
+                    <p class="text-xs text-slate-400 font-mono">18 mins ago · Export</p>
+                </div>
+                <div class="px-5 py-4 hover:bg-white/5 transition-all cursor-pointer">
+                    <p class="text-sm text-white font-medium mb-1">System backup completed</p>
+                    <p class="text-xs text-slate-400 font-mono">1 hr ago · System</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right hidden sm:block">
+            <p class="text-xs font-bold text-white uppercase tracking-widest">Administrator</p>
+        </div>
+        <a href="/logout/" class="px-5 py-2 border border-[#E09D3F]/30 text-[#E09D3F] text-xs font-bold uppercase tracking-widest hover:bg-[#E09D3F] hover:text-[#0f172a] transition-all rounded-md whitespace-nowrap">
+            Log Out
+        </a>
+    </div>
+</header>
+
+<div class="flex flex-1 overflow-hidden relative">
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-[#0f172a]/80 backdrop-blur-sm z-40 lg:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- SIDEBAR -->
+    <aside id="mobile-sidebar" class="fixed lg:relative lg:translate-x-0 top-16 lg:top-0 w-72 bg-[#1e293b] border-r border-white/5 p-7 z-50 lg:z-auto h-[calc(100vh-64px)] lg:h-auto overflow-y-auto flex flex-col shadow-xl">
+        <nav class="space-y-10 flex-1">
+            <div>
+                <h2 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4">Central Registry</h2>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" onclick="setSection('inquiries')" class="sidebar-link sidebar-active flex items-center justify-between px-4 py-3 text-sm font-bold uppercase tracking-widest rounded-lg">
+                            <span class="flex items-center gap-3"><i data-lucide="inbox" class="w-4 h-4"></i> Inquiries</span>
+                            <span id="inbox-badge" class="text-xs bg-[#0f172a]/50 text-current px-2.5 py-1 rounded-md font-mono">{{ contacts|length|default:"0" }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="setSection('products')" class="sidebar-link group flex items-center justify-between px-4 py-3 text-slate-400 hover:text-white text-sm font-bold uppercase tracking-widest border border-transparent hover:border-white/10 hover:bg-white/5 rounded-lg">
+                            <span class="flex items-center gap-3"><i data-lucide="package" class="w-4 h-4"></i> Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="setSection('gallery')" class="sidebar-link group flex items-center justify-between px-4 py-3 text-slate-400 hover:text-white text-sm font-bold uppercase tracking-widest border border-transparent hover:border-white/10 hover:bg-white/5 rounded-lg">
+                            <span class="flex items-center gap-3"><i data-lucide="image" class="w-4 h-4"></i> Gallery</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- System health bars -->
+            <div>
+                <h2 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4">System Health</h2>
+                <div class="space-y-4">
+                    <div class="p-4 bg-white/5 rounded-lg border border-white/5">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest">Server Load</p>
+                            <p class="text-xs text-[#E09D3F] font-mono font-bold">34%</p>
+                        </div>
+                        <div class="w-full h-1.5 bg-[#0f172a] rounded-full overflow-hidden">
+                            <div class="bar-fill h-full bg-[#E09D3F] rounded-full" style="width:0%" data-width="34%"></div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded-lg border border-white/5">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest">DB Storage</p>
+                            <p class="text-xs text-emerald-400 font-mono font-bold">18%</p>
+                        </div>
+                        <div class="w-full h-1.5 bg-[#0f172a] rounded-full overflow-hidden">
+                            <div class="bar-fill h-full bg-emerald-500 rounded-full" style="width:0%" data-width="18%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4">Quick Nav</h2>
+                <ul class="space-y-3">
+                    <li><a href="/" target="_blank" class="flex items-center gap-3 text-xs uppercase tracking-widest text-slate-400 hover:text-[#E09D3F] transition-colors font-bold"><i data-lucide="external-link" class="w-4 h-4"></i> View Frontend</a></li>
+                    <li><a href="/contact/" target="_blank" class="flex items-center gap-3 text-xs uppercase tracking-widest text-slate-400 hover:text-[#E09D3F] transition-colors font-bold"><i data-lucide="mail" class="w-4 h-4"></i> Contact Form</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="mt-auto pt-6 border-t border-white/10">
+            <p class="text-xs font-mono text-slate-500 uppercase tracking-widest">v3.0 // AES-256 Secured</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+
+        <!-- KPI STAT CARDS -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="console-card rounded-xl p-6 hover:border-[#E09D3F]/40 transition-all group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-[#E09D3F]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">Total Inquiries</span>
+                    <div class="w-10 h-10 rounded-lg bg-[#E09D3F]/10 flex items-center justify-center border border-[#E09D3F]/20">
+                        <i data-lucide="inbox" class="w-5 h-5 text-[#E09D3F]"></i>
+                    </div>
+                </div>
+                <p class="text-4xl font-bold text-white serif kpi-counter relative z-10" data-target="{{ contacts|length|default:'0' }}">0</p>
+                <p class="text-xs text-emerald-400 mt-2 font-mono flex items-center gap-1 relative z-10"><i data-lucide="trending-up" class="w-3 h-3"></i> +14% this week</p>
+            </div>
+
+            <div class="console-card rounded-xl p-6 hover:border-[#E09D3F]/40 transition-all relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">Unread</span>
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+                        <i data-lucide="mail-open" class="w-5 h-5 text-emerald-400"></i>
+                    </div>
+                </div>
+                <p class="text-4xl font-bold text-white serif">3</p>
+                <p class="text-xs text-slate-400 mt-2 font-mono relative z-10">Needs your attention</p>
+            </div>
+
+            <div class="console-card rounded-xl p-6 hover:border-[#E09D3F]/40 transition-all relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">This Month</span>
+                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                        <i data-lucide="calendar" class="w-5 h-5 text-slate-300"></i>
+                    </div>
+                </div>
+                <p class="text-4xl font-bold text-white serif">12</p>
+                <p class="text-xs text-[#E09D3F] mt-2 font-mono relative z-10">April 2026</p>
+            </div>
+
+            <div class="console-card rounded-xl p-6 hover:border-[#E09D3F]/40 transition-all relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">Avg Response</span>
+                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                        <i data-lucide="clock" class="w-5 h-5 text-slate-300"></i>
+                    </div>
+                </div>
+                <p class="text-4xl font-bold text-white serif">4.2<span class="text-lg font-normal text-slate-400 ml-1">hrs</span></p>
+                <p class="text-xs text-emerald-400 mt-2 font-mono relative z-10">Meeting 24h target</p>
+            </div>
+        </div>
+
+        <!-- CHARTS & ANALYTICS -->
+        <div class="console-card rounded-xl p-7 mb-10">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-sm uppercase tracking-widest font-bold text-white">Monthly Inquiry Trends</h3>
+                    <p class="text-xs text-slate-400 font-mono mt-1">Real-time data visualization</p>
+                </div>
+            </div>
+            <div class="h-64 w-full">
+                <canvas id="inquiryChart"></canvas>
+            </div>
+        </div>
+
+        <!-- TABLE HEADER -->
+        <div class="mb-6 flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+            <div>
+                <span class="text-xs uppercase tracking-widest text-[#E09D3F] font-bold mb-2 block">Archive Management</span>
+                <h2 class="text-3xl serif italic text-white leading-tight">Inquiry <span class="not-italic font-bold uppercase text-[#E09D3F] tracking-tight">Registry</span></h2>
+            </div>
+            <div class="flex flex-wrap gap-4">
+                <div class="relative">
+                    <input type="text" id="inquiry-search" placeholder="Search records..." class="bg-[#1e293b] border border-white/10 rounded-lg px-5 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#E09D3F] transition-all font-medium w-64 shadow-inner">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2"></i>
+                </div>
+                <select id="status-filter" onchange="filterInquiries()" class="appearance-none bg-[#1e293b] border border-white/10 rounded-lg px-5 py-3 text-sm text-slate-300 font-medium focus:outline-none focus:border-[#E09D3F] transition-all cursor-pointer pr-10 shadow-inner">
+                    <option value="all">All Statuses</option>
+                    <option value="new">New</option>
+                    <option value="read">Read</option>
+                </select>
+                <button onclick="exportCSV()" class="px-6 py-3 bg-white/5 border border-white/10 text-white text-sm font-bold uppercase tracking-widest rounded-lg hover:bg-[#E09D3F] hover:text-black hover:border-[#E09D3F] transition-all flex items-center gap-2 shadow-sm">
+                    <i data-lucide="download" class="w-4 h-4"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- INQUIRY TABLE -->
+        <div class="console-card rounded-xl overflow-hidden shadow-2xl">
+            <div class="hidden lg:grid grid-cols-[160px_250px_1fr_100px_140px] gap-6 px-8 py-5 border-b border-white/10 bg-[#0f172a]/50 text-xs uppercase tracking-widest font-bold text-slate-400">
+                <span>Date & Time</span>
+                <span>Sender Info</span>
+                <span>Message Snippet</span>
+                <span>Status</span>
+                <span class="text-right">Quick Actions</span>
+            </div>
+
+            <div id="inquiry-list" class="divide-y divide-white/5">
+                {% for msg in contacts %}
+                <div class="inquiry-row row-reveal group grid grid-cols-1 lg:grid-cols-[160px_250px_1fr_100px_140px] gap-6 items-center px-8 py-6 hover:bg-white/5 transition-all"
+                     data-status="{% if msg.is_read %}read{% else %}new{% endif %}"
+                     data-search="{{ msg.name|lower }} {{ msg.email|lower }} {{ msg.message|lower }}">
+
+                    <div>
+                        <p class="text-sm font-mono font-bold text-white tracking-tight">{{ msg.created_at|date:"M d, Y"|upper }}</p>
+                        <p class="text-xs font-mono text-slate-400 mt-1">{{ msg.created_at|date:"H:i" }} IST</p>
+                    </div>
+
+                    <div class="flex items-center gap-4 min-w-0">
+                        <div class="w-10 h-10 rounded-full bg-[#E09D3F]/10 border border-[#E09D3F]/30 flex items-center justify-center flex-shrink-0 text-sm font-bold text-[#E09D3F] shadow-inner">
+                            {{ msg.name|first|upper|default:"?" }}
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-white uppercase tracking-wider truncate">{{ msg.name }}</p>
+                            <p class="text-xs text-slate-400 truncate mt-0.5">{{ msg.email }}</p>
+                        </div>
+                    </div>
+
+                    <div class="min-w-0 pr-6 cursor-pointer" onclick="openDetail('{{ msg.name|escapejs }}','{{ msg.email|escapejs }}','{{ msg.message|escapejs }}','{{ msg.created_at|date:'M d, Y H:i' }}','{{ msg.subject|default:'General Inquiry'|escapejs }}')">
+                        <span class="inline-block text-xs font-bold text-[#E09D3F] uppercase tracking-widest mb-1">{{ msg.subject|default:"General Inquiry" }}</span>
+                        <p class="text-sm text-slate-300 leading-relaxed line-clamp-1 font-medium group-hover:text-white transition-colors">
+                            {{ msg.message }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <span class="status-badge {% if msg.is_read %}badge-read{% else %}badge-new{% endif %} text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-sm">{% if msg.is_read %}Read{% else %}New{% endif %}</span>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                        <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject|urlencode }}" class="action-btn w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-[#E09D3F] hover:border-[#E09D3F] transition-all" title="Reply via Email">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://wa.me/?text={{ 'Hi '|add:msg.name|add:', regarding your inquiry: '|urlencode }}" target="_blank" class="action-btn w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-[#25D366] hover:border-[#25D366] transition-all" title="WhatsApp">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                        </a>
+                        <button onclick="openDetail('{{ msg.name|escapejs }}','{{ msg.email|escapejs }}','{{ msg.message|escapejs }}','{{ msg.created_at|date:'M d, Y H:i' }}','{{ msg.subject|default:'General Inquiry'|escapejs }}')" class="action-btn w-9 h-9 rounded-lg bg-[#E09D3F]/10 border border-[#E09D3F]/30 flex items-center justify-center text-[#E09D3F] hover:bg-[#E09D3F] hover:text-[#0f172a] transition-all" title="View Full Details">
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="py-24 text-center">
+                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="database" class="w-8 h-8 text-slate-500"></i>
+                    </div>
+                    <p class="text-sm uppercase tracking-widest text-slate-400 font-bold mb-2">No Records Found</p>
+                    <p class="text-xs text-slate-500">Your inquiry database is currently empty.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="px-8 py-5 border-t border-white/10 bg-[#0f172a]/30 flex items-center justify-between">
+                <span class="text-xs font-mono text-slate-400 uppercase tracking-widest">{{ contacts|length|default:"0" }} Displayed Records</span>
+                <div class="flex gap-2">
+                    <button class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                    <button class="w-9 h-9 rounded-lg bg-[#E09D3F] flex items-center justify-center text-[#0f172a] text-xs font-bold shadow-md shadow-amber-500/20">1</button>
+                    <button class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <span class="text-xs font-mono uppercase tracking-[0.4em] text-slate-500">DharmaFab Grid Infrastructure // v3.0 // AES-256</span>
+        </div>
+    </main>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="detail-modal" class="fixed inset-0 bg-[#0f172a]/90 backdrop-blur-md z-[200] hidden items-center justify-center p-6" onclick="closeDetail(event)">
+    <div class="w-full max-w-3xl bg-[#1e293b] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] transform scale-95 opacity-0 transition-all duration-300 ease-out" id="modal-content" onclick="event.stopPropagation()">
+        
+        <div class="px-8 py-6 border-b border-white/10 flex items-center justify-between bg-white/5">
+            <div>
+                <h3 class="text-sm uppercase tracking-widest font-bold text-white mb-1">Inquiry Report</h3>
+                <p id="modal-date" class="text-xs font-mono text-[#E09D3F]"></p>
+            </div>
+            <button onclick="hideModal()" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 hover:rotate-90 transition-all duration-300">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="p-8 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[#0f172a]/50 border border-white/5 rounded-xl p-6">
+                    <p class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3"><i data-lucide="user" class="w-3 h-3 inline mr-1"></i> Sender Profile</p>
+                    <p id="modal-name" class="text-lg font-bold text-white uppercase tracking-wide"></p>
+                    <p id="modal-email" class="text-sm text-[#E09D3F] font-mono mt-1"></p>
+                </div>
+                <div class="bg-[#0f172a]/50 border border-white/5 rounded-xl p-6">
+                    <p class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3"><i data-lucide="tag" class="w-3 h-3 inline mr-1"></i> Subject / Type</p>
+                    <p id="modal-type" class="text-lg font-bold text-white uppercase tracking-wide"></p>
+                    <span class="badge-new text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-md mt-3 inline-block">Status: New</span>
+                </div>
+            </div>
+
+            <div class="bg-[#0f172a]/50 border border-white/5 rounded-xl p-8">
+                <p class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4"><i data-lucide="message-square" class="w-3 h-3 inline mr-1"></i> Message Body</p>
+                <p id="modal-message" class="text-base text-slate-300 leading-relaxed font-medium serif italic"></p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <a id="modal-reply" href="#" class="flex-1 bg-[#E09D3F] text-[#0f172a] text-sm font-bold uppercase tracking-widest py-4 rounded-xl text-center hover:bg-white transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20">
+                    <i data-lucide="mail" class="w-5 h-5"></i> Compose Email Reply
+                </a>
+                <a id="modal-whatsapp" href="#" target="_blank" class="flex-1 bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] text-sm font-bold uppercase tracking-widest py-4 rounded-xl text-center hover:bg-[#25D366]/20 transition-all flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                    WhatsApp Chat
+                </a>
+            </div>
+            <div class="text-center mt-2">
+                <button onclick="markAsRead(this)" class="px-6 border border-white/10 text-slate-400 text-xs font-bold uppercase tracking-widest py-3 rounded-xl hover:bg-white/5 hover:text-white transition-all">
+                    Mark as Read & Archive
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    lucide.createIcons();
+
+    /* ---- IST Clock ---- */
+    function tick() {
+        const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+        const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+        const hh = String(h % 12 || 12).padStart(2,'0');
+        const ap = h >= 12 ? 'PM' : 'AM';
+        document.getElementById('hdr-clock').textContent =
+            hh + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ap + ' IST';
+    }
+    tick(); setInterval(tick, 1000);
+
+    /* ---- Animate health bars ---- */
+    setTimeout(() => {
+        document.querySelectorAll('.bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width;
+        });
+    }, 400);
+
+    /* ---- Row reveal ---- */
+    const rows = document.querySelectorAll('.row-reveal');
+    rows.forEach((row, i) => {
+        setTimeout(() => row.classList.add('in'), 100 + i * 50);
+    });
+
+    /* ---- KPI counter ---- */
+    document.querySelectorAll('.kpi-counter').forEach(el => {
+        const target = parseInt(el.dataset.target) || 0;
+        let n = 0;
+        const step = Math.ceil(target / 30) || 1;
+        const t = setInterval(() => {
+            n = Math.min(n + step, target);
+            el.textContent = n;
+            if (n >= target) clearInterval(t);
+        }, 40);
+    });
+
+    /* ---- Search ---- */
+    document.getElementById('inquiry-search').addEventListener('input', filterInquiries);
+
+    /* ---- Chart.js Initialization ---- */
+    const ctx = document.getElementById('inquiryChart').getContext('2d');
+    
+    // Create gradient
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(224, 157, 63, 0.5)');   
+    gradient.addColorStop(1, 'rgba(224, 157, 63, 0.0)');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [{
+                label: 'Inquiries',
+                data: {{ chart_data|safe }},
+                backgroundColor: gradient,
+                borderColor: '#E09D3F',
+                borderWidth: 1,
+                borderRadius: 6,
+                hoverBackgroundColor: '#E09D3F'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#0f172a',
+                    titleColor: '#E09D3F',
+                    bodyColor: '#fff',
+                    padding: 12,
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    borderWidth: 1,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) { return context.parsed.y + ' inquiries'; }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.05)', drawBorder: false },
+                    ticks: { color: '#64748b', font: { family: 'Inter', size: 10 } }
+                },
+                x: {
+                    grid: { display: false, drawBorder: false },
+                    ticks: { color: '#64748b', font: { family: 'Inter', size: 10 } }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+        }
+    });
+});
+
+/* ---- Filter inquiries ---- */
+function filterInquiries() {
+    const q      = document.getElementById('inquiry-search').value.toLowerCase();
+    const status = document.getElementById('status-filter').value;
+
+    document.querySelectorAll('.inquiry-row').forEach(row => {
+        const matchSearch = !q || row.dataset.search.includes(q);
+        const matchStatus = status === 'all' || row.dataset.status === status;
+        row.style.display = matchSearch && matchStatus ? '' : 'none';
+    });
+}
+
+/* ---- Detail Modal ---- */
+function openDetail(name, email, message, date, type) {
+    document.getElementById('modal-name').textContent    = name;
+    document.getElementById('modal-email').textContent   = email;
+    document.getElementById('modal-message').textContent = message;
+    document.getElementById('modal-date').textContent    = date + ' · ' + type;
+    document.getElementById('modal-type').textContent    = type;
+    document.getElementById('modal-reply').href          = 'mailto:' + email + '?subject=Re: ' + encodeURIComponent(type);
+    document.getElementById('modal-whatsapp').href       = 'https://wa.me/?text=' + encodeURIComponent('Hi ' + name + ', regarding your inquiry: ' + type);
+
+    const modal = document.getElementById('detail-modal');
+    const content = document.getElementById('modal-content');
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Trigger animation
+    setTimeout(() => {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+function hideModal() {
+    const modal = document.getElementById('detail-modal');
+    const content = document.getElementById('modal-content');
+    
+    content.classList.remove('scale-100', 'opacity-100');
+    content.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
+}
+
+function closeDetail(e) {
+    if (e.target.id === 'detail-modal') {
+        hideModal();
+    }
+}
+
+/* ---- Mark as read ---- */
+function markAsRead(btn) {
+    const modal = document.getElementById('detail-modal');
+    modal.querySelectorAll('.badge-new').forEach(b => {
+        b.className = b.className.replace('badge-new','badge-read text-slate-400');
+        b.innerHTML = 'Status: Read';
+    });
+    btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 inline mr-1"></i> Archived';
+    btn.disabled = true;
+    lucide.createIcons();
+}
+
+/* ---- Export CSV ---- */
+function exportCSV() {
+    const rows = [['Date & Time', 'Sender Name', 'Email', 'Subject/Type', 'Message', 'Status']];
+    document.querySelectorAll('.inquiry-row').forEach(row => {
+        if(row.style.display !== 'none') {
+            rows.push([
+                row.querySelector('p:first-child')?.textContent.trim() + ' ' + row.querySelector('p:nth-child(2)')?.textContent.trim(),
+                row.querySelectorAll('.truncate')[0]?.textContent.trim(),
+                row.querySelectorAll('.truncate')[1]?.textContent.trim(),
+                row.querySelector('.text-\\[\\#E09D3F\\]')?.textContent.trim(),
+                row.querySelector('.line-clamp-1')?.textContent.trim().replace(/"/g,'""'),
+                row.querySelector('.status-badge')?.textContent.trim()
+            ]);
+        }
+    });
+    const csv  = rows.map(r => r.map(c => '"' + (c || '') + '"').join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a    = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'dharmafab-inquiries-export.csv' });
+    a.click();
+}
+
+/* ---- Notifications ---- */
+function toggleNotifications() {
+    document.getElementById('notif-dropdown').classList.toggle('hidden');
+}
+
+function clearNotifications() {
+    document.getElementById('notif-list').innerHTML =
+        '<div class="px-5 py-10 text-center text-xs uppercase tracking-widest text-slate-500 font-bold">Inbox clear</div>';
+    document.getElementById('notif-count').style.display = 'none';
+}
+
+/* ---- Sidebar section highlight ---- */
+function setSection(id) {
+    document.querySelectorAll('.sidebar-link').forEach(l => {
+        l.classList.remove('sidebar-active', 'text-[#0f172a]');
+        l.classList.add('text-slate-400');
+    });
+    event.currentTarget.classList.remove('text-slate-400');
+    event.currentTarget.classList.add('sidebar-active');
+    closeSidebar();
+}
+
+/* ---- Mobile sidebar ---- */
+function toggleSidebar() {
+    document.getElementById('mobile-sidebar').classList.toggle('open');
+    document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+function closeSidebar() {
+    document.getElementById('mobile-sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+/* ---- Close dropdowns on outside click ---- */
+document.addEventListener('click', e => {
+    const btn = document.getElementById('notif-btn');
+    const dd  = document.getElementById('notif-dropdown');
+    if (!btn.contains(e.target) && !dd.contains(e.target)) dd.classList.add('hidden');
+});
+
+/* ---- Escape closes modal ---- */
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        hideModal();
+        document.getElementById('notif-dropdown').classList.add('hidden');
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,567 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<!-- =============================================
+     HERO SECTION
+============================================= -->
+<section class="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-transparent mt-[-70px]">
+    
+    <div class="absolute inset-0">
+        <img src="{% static 'images/about-hero2.jpg' %}" 
+             class="w-full h-full object-cover opacity-40 scale-animation brightness-50" 
+             alt="DharmaFab Heritage">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#121212]"></div>
+    </div>
+
+    <div class="relative z-10 px-6 reveal">
+        <!-- FEATURE: Breadcrumb -->
+        <div class="flex items-center justify-center gap-2 text-[9px] uppercase tracking-[0.4em] text-white/30 mb-8">
+            <a href="/" class="hover:text-[#E09D3F] transition-colors">Home</a>
+            <span>/</span>
+            <span class="text-[#E09D3F]">About</span>
+        </div>
+        <span class="block text-[10px] uppercase tracking-[0.8em] mb-6 text-[#E09D3F] font-bold">Our Story</span>
+        <h1 class="text-6xl md:text-8xl mb-6 serif italic">
+            Defining <span class="not-italic font-bold text-white">Excellence</span>
+        </h1>
+        <p class="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
+            Crafting premium textiles since 2022 with a foundation built on high-speed innovation and uncompromising quality.
+        </p>
+    </div>
+
+    <!-- Marquee strip -->
+    <div class="absolute bottom-0 w-full overflow-hidden border-t border-white/5 bg-white/5 backdrop-blur-md">
+        <div class="animate-marquee whitespace-nowrap py-6 text-[10px] md:text-xs text-slate-300 uppercase tracking-[0.5em] font-bold flex items-center">
+            <span class="mx-12">Established 2022</span>
+            <span class="text-[#E09D3F]">•</span>
+            <span class="mx-12">Precision Weaving</span>
+            <span class="text-[#E09D3F]">•</span>
+            <span class="mx-12">Global Export Standards</span>
+            <span class="text-[#E09D3F]">•</span>
+            <span class="mx-12">Sustainable Craftsmanship</span>
+            <span class="text-[#E09D3F]">•</span>
+            <span class="mx-12">Established 2022</span>
+            <span class="text-[#E09D3F]">•</span>
+            <span class="mx-12">Precision Weaving</span>
+            <span class="text-[#E09D3F]">•</span>
+            <span class="mx-12">Global Export Standards</span>
+            <span class="text-[#E09D3F]">•</span>
+            <span class="mx-12">Sustainable Craftsmanship</span>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     FEATURE: KEY STATS BAR
+============================================= -->
+<section class="bg-transparent border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-0 border border-white/5 bg-white/[0.03]">
+            <div class="px-10 py-8 border-r border-white/5 hover:bg-white/5 transition-all group text-center md:text-left">
+                <p class="text-3xl font-bold text-white serif counter" data-target="4" data-suffix="+">0+</p>
+                <p class="text-[9px] uppercase tracking-[0.35em] text-slate-500 mt-2">Years of Excellence</p>
+            </div>
+            <div class="px-10 py-8 border-r border-white/5 hover:bg-white/5 transition-all group text-center md:text-left">
+                <p class="text-3xl font-bold text-white serif counter" data-target="40" data-suffix="+">0+</p>
+                <p class="text-[9px] uppercase tracking-[0.35em] text-slate-500 mt-2">Global Markets</p>
+            </div>
+            <div class="px-10 py-8 border-r border-white/5 hover:bg-white/5 transition-all group text-center md:text-left">
+                <p class="text-3xl font-bold text-white serif" id="meters-stat">50M+</p>
+                <p class="text-[9px] uppercase tracking-[0.35em] text-slate-500 mt-2">Metres Woven</p>
+            </div>
+            <div class="px-10 py-8 hover:bg-white/5 transition-all group text-center md:text-left">
+                <p class="text-3xl font-bold text-white serif counter" data-target="200" data-suffix="+">0+</p>
+                <p class="text-[9px] uppercase tracking-[0.35em] text-slate-500 mt-2">Brand Partners</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     STORY SECTION
+============================================= -->
+<section class="relative bg-transparent py-32 overflow-hidden border-b border-white/5">
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+        
+        <div class="text-center mb-16 reveal">
+            <p class="text-[10px] tracking-[0.6em] text-[#E09D3F] uppercase font-bold mb-4">The Foundation</p>
+            <h2 class="text-5xl md:text-6xl serif italic text-white">A Journey of <span class="not-italic font-bold text-[#E09D3F]">Focused Growth</span></h2>
+            <div class="w-16 h-[1px] bg-[#E09D3F]/40 mx-auto mt-8"></div>
+        </div>
+
+        <div class="reveal" style="transition-delay: 200ms;">
+            <p class="text-slate-400 text-lg md:text-xl leading-[1.8] font-light text-justify serif">
+                <span class="float-left text-7xl md:text-8xl font-bold text-[#E09D3F] mr-6 mt-2 leading-[0.8] serif">D</span>
+                harma Fab is a premier fabric supplier proudly located in Surat, the textile capital of India. We are dedicated to providing the textile industry with a wide variety of top-tier fabrics, ranging from 100% pure materials to innovative blends.
+            </p>
+            
+            <p class="mt-12 text-slate-400 text-lg md:text-xl leading-[1.8] font-light text-justify serif">
+                Our commitment is absolute: we deliver quality, consistency, and excellent service to all our clients. Every thread we weave carries our unwavering dedication to excellence and the promise of future innovation.
+            </p>
+        </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     FEATURE: INTERACTIVE TIMELINE
+============================================= -->
+<section class="bg-transparent py-32 border-b border-white/5 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20 reveal">
+            <p class="text-[10px] tracking-[0.6em] text-[#E09D3F] uppercase font-bold mb-4">Milestones</p>
+            <h2 class="text-5xl md:text-6xl serif italic text-white">Dharma Fab <span class="not-italic font-bold text-[#E09D3F]">Growth Timeline</span></h2>
+            <div class="mt-8 max-w-3xl mx-auto bg-white/[0.04] border border-white/10 rounded-2xl p-8 text-left">
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-[#E09D3F]/15 border border-[#E09D3F]/30 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="send" class="w-4 h-4 text-[#E09D3F]"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-2">Our Growth Journey</h3>
+                        <p class="text-slate-300 leading-relaxed">From consistent weaving to premium fabric innovation, Dharma Fabrics has grown into a trusted manufacturing partner for quality and reliability.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative py-12">
+            <!-- Central glowing line -->
+            <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#E09D3F] to-transparent -translate-x-1/2 shadow-[0_0_20px_rgba(224,157,63,0.5)]"></div>
+
+            <div class="space-y-16 md:space-y-20">
+
+                <!-- 2022 -->
+                <div class="timeline-item relative flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-0 reveal group">
+                    <div class="md:w-1/2 md:pr-16 md:text-right order-2 md:order-1 relative z-10">
+                        <div class="relative inline-block w-full max-w-md bg-[#121212]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 shadow-2xl transition-all duration-500 overflow-hidden text-left md:text-right">
+                            <span class="absolute -bottom-6 -left-6 text-9xl font-bold text-white/[0.02] serif pointer-events-none md:-right-6 md:left-auto">2022</span>
+                            <div class="relative z-10">
+                                <p class="text-[#E09D3F] font-mono text-xs font-bold tracking-[0.3em] mb-4">2022</p>
+                                <h3 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight">Foundation</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed font-light">Started with air jet weaving, focusing on consistent quality and strong production processes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Dot -->
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#E09D3F] border-4 border-[#121212] shadow-[0_0_15px_rgba(224,157,63,0.8)] z-20 top-8 group-hover:scale-125 transition-transform duration-500"></div>
+                    <div class="md:w-1/2 order-1 md:order-2"></div>
+                </div>
+
+                <!-- 2023 -->
+                <div class="timeline-item relative flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-0 reveal group" style="transition-delay:100ms">
+                    <div class="md:w-1/2 order-2"></div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#E09D3F] border-4 border-[#121212] shadow-[0_0_15px_rgba(224,157,63,0.8)] z-20 top-8 group-hover:scale-125 transition-transform duration-500"></div>
+                    <div class="md:w-1/2 md:pl-16 order-1 md:order-3 relative z-10">
+                        <div class="relative inline-block w-full max-w-md bg-[#121212]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 shadow-2xl transition-all duration-500 overflow-hidden text-left">
+                            <span class="absolute -bottom-6 -right-6 text-9xl font-bold text-white/[0.02] serif pointer-events-none">2023</span>
+                            <div class="relative z-10">
+                                <p class="text-[#E09D3F] font-mono text-xs font-bold tracking-[0.3em] mb-4">2023</p>
+                                <h3 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight">Scale & Stability</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed font-light">Expanded capacity and built a reputation for reliable bulk production and timely delivery.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2024 -->
+                <div class="timeline-item relative flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-0 reveal group" style="transition-delay:200ms">
+                    <div class="md:w-1/2 md:pr-16 md:text-right order-2 md:order-1 relative z-10">
+                        <div class="relative inline-block w-full max-w-md bg-[#121212]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 shadow-2xl transition-all duration-500 overflow-hidden text-left md:text-right">
+                            <span class="absolute -bottom-6 -left-6 text-9xl font-bold text-white/[0.02] serif pointer-events-none md:-right-6 md:left-auto">2024</span>
+                            <div class="relative z-10">
+                                <p class="text-[#E09D3F] font-mono text-xs font-bold tracking-[0.3em] mb-4">2024</p>
+                                <h3 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight">Diversification & Flexibility</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed font-light">Introduced a wider range of fabrics with the ability to handle custom client requirements.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#E09D3F] border-4 border-[#121212] shadow-[0_0_15px_rgba(224,157,63,0.8)] z-20 top-8 group-hover:scale-125 transition-transform duration-500"></div>
+                    <div class="md:w-1/2 order-1 md:order-2"></div>
+                </div>
+
+                <!-- 2025 -->
+                <div class="timeline-item relative flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-0 reveal group" style="transition-delay:300ms">
+                    <div class="md:w-1/2 order-2"></div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#E09D3F] border-4 border-[#121212] shadow-[0_0_15px_rgba(224,157,63,0.8)] z-20 top-8 group-hover:scale-125 transition-transform duration-500"></div>
+                    <div class="md:w-1/2 md:pl-16 order-1 md:order-3 relative z-10">
+                        <div class="relative inline-block w-full max-w-md bg-[#121212]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 shadow-2xl transition-all duration-500 overflow-hidden text-left">
+                            <span class="absolute -bottom-6 -right-6 text-9xl font-bold text-white/[0.02] serif pointer-events-none">2025</span>
+                            <div class="relative z-10">
+                                <p class="text-[#E09D3F] font-mono text-xs font-bold tracking-[0.3em] mb-4">2025</p>
+                                <h3 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight">Design & Premium Shift</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed font-light">Entered the fancy fabric segment with enhanced focus on textures, patterns, and value-added weaving.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Future -->
+                <div class="timeline-item relative flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-0 reveal group" style="transition-delay:400ms">
+                    <div class="md:w-1/2 md:pr-16 md:text-right order-2 md:order-1 relative z-10">
+                        <div class="relative inline-block w-full max-w-md bg-[#E09D3F]/10 backdrop-blur-xl border border-[#E09D3F]/30 rounded-3xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/60 hover:bg-[#E09D3F]/20 shadow-2xl shadow-[#E09D3F]/10 transition-all duration-500 overflow-hidden text-left md:text-right">
+                            <span class="absolute -bottom-6 -left-6 text-9xl font-bold text-white/[0.02] serif pointer-events-none md:-right-6 md:left-auto">NOW</span>
+                            <div class="relative z-10">
+                                <div class="flex items-center md:justify-end gap-3 mb-4">
+                                    <h3 class="text-2xl font-bold text-white uppercase tracking-tight">Global Expansion</h3>
+                                    <span class="text-[8px] uppercase tracking-[0.3em] font-bold bg-[#E09D3F] text-black px-2 py-0.5 rounded-full animate-pulse">Now</span>
+                                </div>
+                                <p class="text-slate-300 text-sm leading-relaxed font-light">Partnering with 200+ brands across 40 countries. Advancing sustainable manufacturing and continuing to push the boundaries of premium textile engineering.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-[#E09D3F] border-4 border-[#121212] shadow-[0_0_25px_rgba(224,157,63,1)] z-20 top-8 group-hover:scale-110 transition-transform duration-500 flex items-center justify-center">
+                        <div class="w-3 h-3 bg-white rounded-full animate-ping"></div>
+                    </div>
+                    <div class="md:w-1/2 order-1 md:order-2"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     MISSION / VISION / VALUES
+============================================= -->
+<section class="bg-transparent py-16">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-8">
+            
+            <div class="relative bg-[#121212]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 group hover:border-[#E09D3F]/40 hover:-translate-y-2 transition-all duration-500 shadow-2xl reveal">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-[#E09D3F]/5 rounded-bl-full pointer-events-none transition-all duration-500 group-hover:bg-[#E09D3F]/10"></div>
+                <div class="flex items-center gap-4 mb-6 relative z-10">
+                    <div class="w-10 h-10 rounded-full border border-[#E09D3F]/30 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[#E09D3F] group-hover:text-black transition-colors duration-500 text-[#E09D3F]">
+                        <i data-lucide="target" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-tight text-white uppercase italic serif">Our Mission</h3>
+                </div>
+                <p class="text-slate-300 leading-relaxed font-light text-sm relative z-10">
+                    To provide a robust foundation for the apparel and textile manufacturing sectors by delivering consistently premium, precision-engineered fabrics. We are committed to merging the rich textile heritage of India with modern material innovation, ensuring our partners receive unparalleled quality across both pure textiles and specialized blends at a scale that meets their highest ambitions.
+                </p>
+            </div>
+
+            <div class="relative bg-[#121212]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 group hover:border-[#E09D3F]/40 hover:-translate-y-2 transition-all duration-500 shadow-2xl reveal" style="transition-delay: 200ms;">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-[#E09D3F]/5 rounded-bl-full pointer-events-none transition-all duration-500 group-hover:bg-[#E09D3F]/10"></div>
+                <div class="flex items-center gap-4 mb-6 relative z-10">
+                    <div class="w-10 h-10 rounded-full border border-[#E09D3F]/30 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[#E09D3F] group-hover:text-black transition-colors duration-500 text-[#E09D3F]">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-tight text-white uppercase italic serif">Our Vision</h3>
+                </div>
+                <p class="text-slate-300 leading-relaxed font-light text-sm relative z-10">
+                    To become the definitive benchmark for material excellence in the textile industry. We envision building a legacy rooted in trust, quality, and forward-thinking manufacturing, serving as the preferred platform where innovative blends and pure fabrics meet the evolving demands of tomorrow's fashion and industrial needs.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     FEATURE: HALLMARKS OF EXCELLENCE
+============================================= -->
+<section class="bg-transparent py-24 border-y border-white/5 relative overflow-hidden">
+    <!-- background glow -->
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-[#E09D3F]/5 blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10 reveal">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl serif italic text-white drop-shadow-lg">Hallmarks of <span class="not-italic font-bold text-[#E09D3F]">Excellence</span></h2>
+            <div class="w-12 h-[1px] bg-[#E09D3F]/40 mx-auto mt-6"></div>
+        </div>
+        
+        <div class="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+            
+            <!-- OEKO-TEX -->
+            <div class="flex flex-col items-center gap-4 group bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 hover:shadow-[0_0_30px_rgba(224,157,63,0.15)] transition-all duration-500 min-w-[220px] md:min-w-[200px] flex-1 md:flex-none">
+                <div class="w-16 h-16 rounded-full border border-[#E09D3F]/30 bg-[#E09D3F]/5 flex items-center justify-center group-hover:bg-[#E09D3F] group-hover:text-black text-[#E09D3F] transition-all duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+                </div>
+                <span class="text-[10px] uppercase tracking-[0.25em] font-bold text-white/70 group-hover:text-white transition-colors text-center">OEKO-TEX®</span>
+            </div>
+
+            <!-- GOTS -->
+            <div class="flex flex-col items-center gap-4 group bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 hover:shadow-[0_0_30px_rgba(224,157,63,0.15)] transition-all duration-500 min-w-[220px] md:min-w-[200px] flex-1 md:flex-none">
+                <div class="w-16 h-16 rounded-full border border-[#E09D3F]/30 bg-[#E09D3F]/5 flex items-center justify-center group-hover:bg-[#E09D3F] group-hover:text-black text-[#E09D3F] transition-all duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22V12M12 12C12 6 6 4 6 4s0 6 6 8zM12 12c0-6 6-8 6-8s0 6-6 8z"/></svg>
+                </div>
+                <span class="text-[10px] uppercase tracking-[0.25em] font-bold text-white/70 group-hover:text-white transition-colors text-center">GOTS Certified</span>
+            </div>
+
+            <!-- Made in India -->
+            <div class="flex flex-col items-center gap-4 group bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 hover:shadow-[0_0_30px_rgba(224,157,63,0.15)] transition-all duration-500 min-w-[220px] md:min-w-[200px] flex-1 md:flex-none">
+                <div class="w-16 h-16 rounded-full border border-[#E09D3F]/30 bg-[#E09D3F]/5 flex items-center justify-center group-hover:bg-[#E09D3F] group-hover:text-black text-[#E09D3F] transition-all duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <span class="text-[10px] uppercase tracking-[0.25em] font-bold text-white/70 group-hover:text-white transition-colors text-center">Made in India</span>
+            </div>
+
+            <!-- 100% Pure Fabrics -->
+            <div class="flex flex-col items-center gap-4 group bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 hover:shadow-[0_0_30px_rgba(224,157,63,0.15)] transition-all duration-500 min-w-[220px] md:min-w-[200px] flex-1 md:flex-none">
+                <div class="w-16 h-16 rounded-full border border-[#E09D3F]/30 bg-[#E09D3F]/5 flex items-center justify-center group-hover:bg-[#E09D3F] group-hover:text-black text-[#E09D3F] transition-all duration-500">
+                    <i data-lucide="feather" class="w-6 h-6"></i>
+                </div>
+                <span class="text-[10px] uppercase tracking-[0.25em] font-bold text-white/70 group-hover:text-white transition-colors text-center">Pure Materials</span>
+            </div>
+            
+            <!-- Precision Weaving -->
+            <div class="flex flex-col items-center gap-4 group bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:-translate-y-2 hover:border-[#E09D3F]/40 hover:shadow-[0_0_30px_rgba(224,157,63,0.15)] transition-all duration-500 min-w-[220px] md:min-w-[200px] flex-1 md:flex-none">
+                <div class="w-16 h-16 rounded-full border border-[#E09D3F]/30 bg-[#E09D3F]/5 flex items-center justify-center group-hover:bg-[#E09D3F] group-hover:text-black text-[#E09D3F] transition-all duration-500">
+                    <i data-lucide="layers" class="w-6 h-6"></i>
+                </div>
+                <span class="text-[10px] uppercase tracking-[0.25em] font-bold text-white/70 group-hover:text-white transition-colors text-center">Precision Weaving</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     LEADERSHIP SECTION
+============================================= -->
+<section class="bg-transparent py-32 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-24 reveal">
+            <span class="text-[10px] uppercase tracking-[0.6em] text-[#E09D3F] font-bold mb-4 block">The Visionaries</span>
+            <h2 class="text-5xl md:text-6xl serif italic text-white">Our <span class="not-italic font-bold">Leadership</span></h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-16">
+
+            <div class="group reveal" style="transition-delay: 100ms;">
+                <div class="relative overflow-hidden aspect-[3/4] border border-white/10">
+                    <img src="{% static 'images/owner1.jpg' %}" 
+                         class="w-full h-full object-cover brightness-70 group-hover:grayscale-0 group-hover:brightness-110 transition-all duration-1000 group-hover:scale-105" 
+                         alt="Founder">
+                    <!-- FEATURE: Social links slide up on hover -->
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-black/85">
+                        <div class="flex gap-6 text-white text-sm">
+                            <a href="#" aria-label="LinkedIn" class="hover:text-[#E09D3F] transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="Twitter" class="hover:text-[#E09D3F] transition-colors"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <!-- FEATURE: Dept. tag top-left -->
+                    <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">
+                        Founder
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="text-2xl font-bold tracking-tight text-white group-hover:text-[#E09D3F] transition-colors">Rajnikant Findoliya</h3>
+                    <p class="text-[10px] uppercase tracking-[0.4em] text-[#E09D3F] font-bold mt-2">Founder & Chairman</p>
+                    <!-- FEATURE: Brief quote -->
+                    <p class="text-slate-500 text-xs leading-relaxed mt-4 italic serif border-l border-[#E09D3F]/30 pl-4">"Every thread tells a story of discipline."</p>
+                </div>
+            </div>
+
+            <div class="group reveal" style="transition-delay: 250ms;">
+                <div class="relative overflow-hidden aspect-[3/4] border border-white/10">
+                    <img src="{% static 'images/owner2.jpg' %}" 
+                         class="w-full h-full object-cover brightness-90 group-hover:grayscale-0 group-hover:brightness-110 transition-all duration-1000 group-hover:scale-105" 
+                         alt="Operations">
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-black/85">
+                        <div class="flex gap-6 text-white text-sm">
+                            <a href="#" aria-label="LinkedIn" class="hover:text-[#E09D3F] transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">
+                        Operations
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="text-2xl font-bold tracking-tight text-white group-hover:text-[#E09D3F] transition-colors">Vishal Gajera</h3>
+                    <p class="text-[10px] uppercase tracking-[0.4em] text-[#E09D3F] font-bold mt-2">Director of Operations</p>
+                    <p class="text-slate-500 text-xs leading-relaxed mt-4 italic serif border-l border-[#E09D3F]/30 pl-4">"Precision in process is the root of quality."</p>
+                </div>
+            </div>
+
+            <div class="group reveal" style="transition-delay: 400ms;">
+                <div class="relative overflow-hidden aspect-[3/4] border border-white/10">
+                    <img src="{% static 'images/owner3.jpg' %}" 
+                         class="w-full h-full object-cover brightness-90 group-hover:grayscale-0 group-hover:brightness-110 transition-all duration-1000 group-hover:scale-105" 
+                         alt="Technical">
+                    <div class="absolute bottom-0 left-0 w-full p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-black/85">
+                        <div class="flex gap-6 text-white text-sm">
+                            <a href="#" aria-label="LinkedIn" class="hover:text-[#E09D3F] transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">
+                        Technical
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="text-2xl font-bold tracking-tight text-white group-hover:text-[#E09D3F] transition-colors">Vipul Donda</h3>
+                    <p class="text-[10px] uppercase tracking-[0.4em] text-[#E09D3F] font-bold mt-2">Technical Director</p>
+                    <p class="text-slate-500 text-xs leading-relaxed mt-4 italic serif border-l border-[#E09D3F]/30 pl-4">"Innovation is woven into our very structure."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     FEATURE: WHY CHOOSE US — ACCORDION
+============================================= -->
+<section class="bg-transparent py-32 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-20 reveal">
+            <p class="text-[10px] tracking-[0.6em] text-[#E09D3F] uppercase font-bold mb-4">Frequently Asked</p>
+            <h2 class="text-5xl md:text-6xl serif italic text-white">Questions &amp; <span class="not-italic font-bold text-[#E09D3F]">Answers</span></h2>
+        </div>
+
+        <div class="space-y-0 divide-y divide-white/10 reveal">
+
+            <div class="faq-item py-6 cursor-pointer group">
+                <div class="flex justify-between items-center gap-6" onclick="toggleFaq(this)">
+                    <h3 class="text-sm font-bold uppercase tracking-[0.15em] text-white group-hover:text-[#E09D3F] transition-colors">What is your minimum order quantity?</h3>
+                    <div class="faq-icon w-8 h-8 rounded-full border border-white/15 flex items-center justify-center flex-shrink-0 transition-all group-hover:border-[#E09D3F]/40">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E09D3F" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="faq-body hidden mt-4 pl-0">
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Our standard MOQ is 500 metres per fabric type per colour. For custom Jacquard designs the MOQ is 1,000 metres. We also offer sample lengths of 5–10 metres for quality assessment before bulk orders.</p>
+                </div>
+            </div>
+
+            <div class="faq-item py-6 cursor-pointer group">
+                <div class="flex justify-between items-center gap-6" onclick="toggleFaq(this)">
+                    <h3 class="text-sm font-bold uppercase tracking-[0.15em] text-white group-hover:text-[#E09D3F] transition-colors">How long does production take?</h3>
+                    <div class="faq-icon w-8 h-8 rounded-full border border-white/15 flex items-center justify-center flex-shrink-0 transition-all group-hover:border-[#E09D3F]/40">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E09D3F" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="faq-body hidden mt-4">
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Standard weaves take 15–21 business days from order confirmation. Custom Jacquard and special finishes may take 25–35 days. Rush orders (7–10 days) are available at a surcharge for in-stock grey fabric orders.</p>
+                </div>
+            </div>
+
+            <div class="faq-item py-6 cursor-pointer group">
+                <div class="flex justify-between items-center gap-6" onclick="toggleFaq(this)">
+                    <h3 class="text-sm font-bold uppercase tracking-[0.15em] text-white group-hover:text-[#E09D3F] transition-colors">Do you offer custom dyeing and finishing?</h3>
+                    <div class="faq-icon w-8 h-8 rounded-full border border-white/15 flex items-center justify-center flex-shrink-0 transition-all group-hover:border-[#E09D3F]/40">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E09D3F" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="faq-body hidden mt-4">
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">Yes. We offer Pantone-matched yarn dyeing, piece dyeing, and a full range of finishes including anti-wrinkle, mercerisation, and flame retardant treatments. Our zero-discharge facility ensures environmentally compliant dyeing.</p>
+                </div>
+            </div>
+
+            <div class="faq-item py-6 cursor-pointer group">
+                <div class="flex justify-between items-center gap-6" onclick="toggleFaq(this)">
+                    <h3 class="text-sm font-bold uppercase tracking-[0.15em] text-white group-hover:text-[#E09D3F] transition-colors">What payment terms do you accept?</h3>
+                    <div class="faq-icon w-8 h-8 rounded-full border border-white/15 flex items-center justify-center flex-shrink-0 transition-all group-hover:border-[#E09D3F]/40">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E09D3F" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
+                <div class="faq-body hidden mt-4">
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">For new clients: 50% advance, 50% before dispatch. For verified long-term partners we offer Net 30/60 terms via LC or TT. We accept all major international wire transfers and trade finance instruments.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     CTA SECTION
+============================================= -->
+<section class="relative bg-transparent py-32 border-t border-white/5 overflow-hidden">
+    <div class="absolute -bottom-10 -right-20 select-none pointer-events-none opacity-[0.05]">
+        <span class="text-[15rem] font-bold text-white serif italic">Excellence</span>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+        <div class="reveal">
+            <span class="text-[10px] uppercase tracking-[0.8em] text-[#E09D3F] font-bold block mb-8">Take the next step</span>
+            <h2 class="text-5xl md:text-7xl serif italic text-white mb-10">Let's Weave Your <span class="not-italic font-bold text-[#E09D3F]">Vision</span></h2>
+            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-16 leading-relaxed font-light">
+                From custom Jacquard designs to high-volume production, our focused manufacturing expertise is at your service.
+            </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-8 reveal" style="transition-delay: 200ms;">
+            <a href="/contact/" class="bg-[#E09D3F] text-black px-12 py-5 rounded-full uppercase tracking-widest text-xs font-bold hover:bg-white transition-all shadow-xl shadow-amber-500/10">
+               Start an Inquiry
+            </a>
+            <a href="{% url 'products' %}" class="px-12 py-5 border border-white/20 text-white rounded-full uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-all">
+               View Catalog
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     STYLES
+============================================= -->
+<style>
+    .serif { font-family: 'Playfair Display', serif; }
+    .animate-marquee { display: inline-block; animation: marquee-scroll 35s linear infinite; }
+    @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .scale-animation { animation: kenburns 25s infinite alternate; }
+    @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+    /* FAQ icon rotation */
+    .faq-item.open .faq-icon svg { transform: rotate(180deg); }
+    .faq-item.open .faq-icon { background: rgba(224,157,63,0.1); border-color: rgba(224,157,63,0.4); }
+
+    /* Timeline spacing */
+    .timeline-item { padding: 40px 0; }
+</style>
+
+<!-- =============================================
+     SCRIPTS
+============================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ---- Counter animation on scroll ---- */
+    function animateCounters() {
+        document.querySelectorAll('.counter').forEach(el => {
+            const target = parseInt(el.dataset.target, 10);
+            const suffix = el.dataset.suffix || '+';
+            let current = 0;
+            const step  = Math.ceil(target / 50);
+            const timer = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = current + suffix;
+                if (current >= target) clearInterval(timer);
+            }, 30);
+        });
+    }
+
+    const firstCounter = document.querySelector('.counter');
+    if (firstCounter) {
+        const io = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) { animateCounters(); io.disconnect(); }
+        }, { threshold: 0.5 });
+        io.observe(firstCounter);
+    }
+
+    lucide.createIcons();
+});
+
+/* ---- FAQ accordion ---- */
+function toggleFaq(headerEl) {
+    const item = headerEl.closest('.faq-item');
+    const body = item.querySelector('.faq-body');
+    const isOpen = item.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-body').classList.add('hidden');
+    });
+
+    // Open clicked if it was closed
+    if (!isOpen) {
+        item.classList.add('open');
+        body.classList.remove('hidden');
+    }
+}
+</script>
+
+{% endblock %}

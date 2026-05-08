@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sample Request | DharmaFab{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-transparent px-6 py-24">
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-[0.9fr_1.1fr] gap-12 items-start">
+    <aside class="reveal">
+      <div class="sticky top-32 overflow-hidden border border-white/10 bg-white/[0.04] rounded-2xl">
+        <div class="aspect-[4/5] overflow-hidden bg-[#1a1a1a]">
+          {% if fabric.image_url %}
+            <img src="{{ fabric.image_url }}" alt="{{ fabric.name }}" class="w-full h-full object-cover brightness-90">
+          {% else %}
+            <img src="{% static fabric.image %}" alt="{{ fabric.name }}" class="w-full h-full object-cover brightness-90">
+          {% endif %}
+        </div>
+        <div class="p-8">
+          <p class="text-[10px] uppercase tracking-[0.4em] text-[#E09D3F] font-bold mb-3">{{ fabric.category }}</p>
+          <h1 class="text-4xl serif italic text-white mb-4">{{ fabric.name }}</h1>
+          <p class="text-slate-400 text-sm leading-relaxed">{{ fabric.description }}</p>
+          <div class="mt-8 grid grid-cols-3 gap-3 text-center">
+            <div class="border border-white/10 rounded-lg p-4">
+              <p class="text-white font-bold">48h</p>
+              <p class="text-[8px] uppercase tracking-widest text-slate-500 mt-1">Reply</p>
+            </div>
+            <div class="border border-white/10 rounded-lg p-4">
+              <p class="text-white font-bold">500m</p>
+              <p class="text-[8px] uppercase tracking-widest text-slate-500 mt-1">MOQ</p>
+            </div>
+            <div class="border border-white/10 rounded-lg p-4">
+              <p class="text-white font-bold">QC</p>
+              <p class="text-[8px] uppercase tracking-widest text-slate-500 mt-1">Checked</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="reveal" style="transition-delay:150ms">
+      <div class="mb-10">
+        <a href="{% url 'products' %}" class="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/50 hover:text-[#E09D3F] transition-colors">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          Back to Collections
+        </a>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 md:p-12 shadow-2xl">
+        <p class="text-[10px] uppercase tracking-[0.5em] text-slate-400 font-bold mb-4">Procurement Request</p>
+        <h2 class="text-4xl md:text-5xl serif italic text-slate-950 mb-8">
+          Request <span class="not-italic font-bold">Sample</span>
+        </h2>
+
+        {% if messages %}
+          <div class="space-y-3 mb-8">
+            {% for message in messages %}
+              <div class="rounded-lg border px-4 py-3 text-sm {% if message.tags == 'error' %}border-red-200 bg-red-50 text-red-700{% else %}border-emerald-200 bg-emerald-50 text-emerald-700{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="POST" class="space-y-7">
+          {% csrf_token %}
+          <div class="grid md:grid-cols-2 gap-7">
+            <label class="block">
+              <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Full Name *</span>
+              <input name="name" required class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-950 outline-none focus:border-[#E09D3F]" value="{{ request.POST.name }}">
+            </label>
+            <label class="block">
+              <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Email *</span>
+              <input name="email" type="email" required class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-950 outline-none focus:border-[#E09D3F]" value="{{ request.POST.email }}">
+            </label>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-7">
+            <label class="block">
+              <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Phone / WhatsApp *</span>
+              <input name="phone" required class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-950 outline-none focus:border-[#E09D3F]" value="{{ request.POST.phone }}">
+            </label>
+            <label class="block">
+              <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Company</span>
+              <input name="company" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-950 outline-none focus:border-[#E09D3F]" value="{{ request.POST.company }}">
+            </label>
+          </div>
+
+          <label class="block">
+            <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Estimated Quantity</span>
+            <select name="quantity" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-950 outline-none focus:border-[#E09D3F]">
+              <option value="">Select quantity</option>
+              <option value="Sample only">Sample only</option>
+              <option value="500-2000 metres">500-2000 metres</option>
+              <option value="2000-10000 metres">2,000-10,000 metres</option>
+              <option value="10000+ metres">10,000+ metres</option>
+            </select>
+          </label>
+
+          <label class="block">
+            <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Specs / Notes</span>
+            <textarea name="message" rows="5" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-950 outline-none focus:border-[#E09D3F] resize-none">{{ request.POST.message }}</textarea>
+          </label>
+
+          <button type="submit" class="w-full rounded-full bg-slate-950 text-white py-4 text-[11px] uppercase tracking-[0.35em] font-bold hover:bg-[#E09D3F] hover:text-black transition-all">
+            Submit Sample Request
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

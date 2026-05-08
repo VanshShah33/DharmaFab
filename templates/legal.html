@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if page == 'privacy' %}Privacy Policy{% else %}Terms{% endif %} | DharmaFab{% endblock %}
+
+{% block content %}
+<section class="min-h-screen px-6 py-28 bg-transparent">
+  <div class="max-w-4xl mx-auto">
+    <p class="text-[10px] uppercase tracking-[0.5em] text-[#E09D3F] font-bold mb-5">DharmaFab</p>
+    <h1 class="text-5xl md:text-6xl serif italic text-white mb-10">
+      {% if page == 'privacy' %}Privacy <span class="not-italic font-bold text-[#E09D3F]">Policy</span>{% else %}Business <span class="not-italic font-bold text-[#E09D3F]">Terms</span>{% endif %}
+    </h1>
+
+    <div class="space-y-8 text-slate-300 leading-relaxed bg-white/[0.04] border border-white/10 rounded-2xl p-8 md:p-12">
+      {% if page == 'privacy' %}
+        <p>We collect only the details needed to respond to textile inquiries, sample requests, newsletter signups, and business communications.</p>
+        <p>Inquiry data is stored in the Django backend for internal follow-up by DharmaFab. We do not sell lead information or publish customer details.</p>
+        <p>You can request removal of your contact details by emailing dharmafab.63@gmail.com.</p>
+      {% else %}
+        <p>All quotations, samples, production timelines, and delivery commitments are confirmed directly by DharmaFab after reviewing project requirements.</p>
+        <p>Standard manufacturing orders may require advance payment, approved specifications, and written confirmation before production begins.</p>
+        <p>Custom fabric development, dyeing, and finishing are subject to MOQ, technical feasibility, and batch approval.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

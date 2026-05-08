@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}My Requests | DharmaFab{% endblock %}
+
+{% block content %}
+<section class="min-h-screen px-6 py-28 bg-transparent">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-12">
+      <p class="text-[10px] uppercase tracking-[0.5em] text-[#E09D3F] font-bold mb-4">Client Desk</p>
+      <h1 class="text-5xl serif italic text-white">My <span class="not-italic font-bold text-[#E09D3F]">Requests</span></h1>
+    </div>
+
+    <div class="border border-white/10 rounded-2xl overflow-hidden bg-white/[0.04]">
+      {% for inquiry in inquiries %}
+        <div class="p-6 border-b border-white/10 last:border-b-0">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <p class="text-white font-bold">
+                {% if inquiry.fabric_name %}{{ inquiry.fabric_name }}{% elif inquiry.product %}{{ inquiry.product.name }}{% else %}Fabric inquiry{% endif %}
+              </p>
+              <p class="text-slate-400 text-sm mt-1">{{ inquiry.message|default:"Sample request submitted." }}</p>
+            </div>
+            <div class="text-left md:text-right">
+              <p class="text-[10px] uppercase tracking-widest text-[#E09D3F] font-bold">Received</p>
+              <p class="text-slate-500 text-xs mt-1">{{ inquiry.created_at|date:"M d, Y H:i" }}</p>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="p-12 text-center">
+          <p class="text-white font-bold mb-3">No sample requests yet.</p>
+          <a href="{% url 'products' %}" class="text-[10px] uppercase tracking-[0.3em] text-[#E09D3F] font-bold">Browse collections</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

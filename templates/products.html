@@ -1,0 +1,518 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<!-- =============================================
+     HERO SECTION
+============================================= -->
+<section class="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-transparent mt-[-70px]">
+  <div class="absolute inset-0">
+    <img src="{% static 'images/collection-hero.jpg' %}"
+         class="w-full h-full object-cover opacity-40 scale-animation brightness-50"
+         alt="DharmaFab Fabric Collection" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-[#121212]"></div>
+  </div>
+
+  <div class="relative z-10 px-6 reveal">
+    <!-- FEATURE: Breadcrumb -->
+    <div class="flex items-center justify-center gap-2 text-[9px] uppercase tracking-[0.4em] text-white/30 mb-8">
+      <a href="/" class="hover:text-[#E09D3F] transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-[#E09D3F]">Collections</span>
+    </div>
+    <span class="block text-[10px] uppercase tracking-[0.8em] mb-6 text-[#E09D3F] font-bold drop-shadow-[0_0_10px_rgba(224,157,63,0.3)]">Tactile Archive</span>
+    <h1 class="text-6xl md:text-8xl mb-6 serif italic text-white drop-shadow-md">
+      Curated <span class="not-italic font-bold tracking-tighter text-[#E09D3F] drop-shadow-[0_0_20px_rgba(224,157,63,0.4)]">Collections</span>
+    </h1>
+    <p class="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed serif italic drop-shadow-sm">
+      A visual language told through fiber. Explore our library of premium weaves, custom jacquards, and high-performance textiles.
+    </p>
+    <!-- FEATURE: Quick stats pills -->
+    <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
+      <span class="text-[9px] uppercase tracking-[0.25em] font-bold border border-[#E09D3F]/30 text-[#E09D3F] bg-[#E09D3F]/5 backdrop-blur-sm px-4 py-2 rounded-full shadow-[0_0_15px_rgba(224,157,63,0.1)]">5 Categories</span>
+      <span class="text-[9px] uppercase tracking-[0.25em] font-bold border border-white/15 text-white/70 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full hover:bg-white/10 transition-colors">50+ Weave Types</span>
+      <span class="text-[9px] uppercase tracking-[0.25em] font-bold border border-white/15 text-white/70 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full hover:bg-white/10 transition-colors">MOQ 500m</span>
+      <span class="text-[9px] uppercase tracking-[0.25em] font-bold border border-white/15 text-white/70 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full hover:bg-white/10 transition-colors">Free Samples</span>
+    </div>
+  </div>
+
+  <!-- Marquee strip -->
+  <div class="absolute bottom-0 w-full overflow-hidden border-t border-white/5 bg-white/5 backdrop-blur-md">
+    <div class="animate-marquee whitespace-nowrap py-6 text-[10px] text-slate-300 uppercase tracking-[0.5em] font-bold flex items-center">
+      <span class="mx-12">Premium Cotton</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">Technical Blends</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">Sustainable Linens</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">High-Density Jacquards</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">Bespoke Weaves</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">Premium Cotton</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">Technical Blends</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">Sustainable Linens</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">High-Density Jacquards</span><span class="text-[#E09D3F]">•</span>
+      <span class="mx-12">Bespoke Weaves</span>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FILTER BAR — enhanced
+============================================= -->
+<section class="relative z-40 bg-[#121212]/80 backdrop-blur-2xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all">
+  <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#E09D3F]/20 to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-6 py-5">
+    <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
+
+      <!-- Filter tabs -->
+      <div class="order-2 lg:order-1 flex flex-wrap justify-center lg:justify-start gap-2">
+        <button data-filter="all"
+          class="filter-tab active-tab px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-full border border-[#E09D3F] text-[#E09D3F] bg-[#E09D3F]/10 shadow-[0_0_15px_rgba(224,157,63,0.2)] transition-all">
+          All
+        </button>
+        <button data-filter="jacquard"
+          class="filter-tab px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-full border border-white/10 bg-white/5 text-slate-400 hover:bg-[#E09D3F]/5 hover:border-[#E09D3F]/40 hover:text-[#E09D3F] hover:shadow-[0_0_15px_rgba(224,157,63,0.1)] transition-all backdrop-blur-sm">
+          Jacquard
+        </button>
+        <button data-filter="cotton"
+          class="filter-tab px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-full border border-white/10 bg-white/5 text-slate-400 hover:bg-[#E09D3F]/5 hover:border-[#E09D3F]/40 hover:text-[#E09D3F] hover:shadow-[0_0_15px_rgba(224,157,63,0.1)] transition-all backdrop-blur-sm">
+          Cotton
+        </button>
+        <button data-filter="silk"
+          class="filter-tab px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-full border border-white/10 bg-white/5 text-slate-400 hover:bg-[#E09D3F]/5 hover:border-[#E09D3F]/40 hover:text-[#E09D3F] hover:shadow-[0_0_15px_rgba(224,157,63,0.1)] transition-all backdrop-blur-sm">
+          Silk
+        </button>
+        <button data-filter="industrial"
+          class="filter-tab px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-full border border-white/10 bg-white/5 text-slate-400 hover:bg-[#E09D3F]/5 hover:border-[#E09D3F]/40 hover:text-[#E09D3F] hover:shadow-[0_0_15px_rgba(224,157,63,0.1)] transition-all backdrop-blur-sm">
+          Industrial
+        </button>
+        <button data-filter="denim"
+          class="filter-tab px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-full border border-white/10 bg-white/5 text-slate-400 hover:bg-[#E09D3F]/5 hover:border-[#E09D3F]/40 hover:text-[#E09D3F] hover:shadow-[0_0_15px_rgba(224,157,63,0.1)] transition-all backdrop-blur-sm">
+          Denim
+        </button>
+      </div>
+
+      <div class="order-1 lg:order-2 w-full lg:w-auto flex items-center gap-4">
+        <!-- Search bar -->
+        <div class="relative w-full lg:w-72 group">
+          <input type="text" id="product-search" placeholder="Search Archives..."
+            class="w-full bg-[#1A1A1A]/50 border border-white/10 rounded-full px-6 py-3 text-[10px] tracking-widest text-white focus:outline-none focus:border-[#E09D3F] focus:bg-[#E09D3F]/5 focus:shadow-[0_0_15px_rgba(224,157,63,0.1)] transition-all placeholder:text-slate-600 font-bold uppercase backdrop-blur-md" />
+          <button class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 group-hover:text-[#E09D3F] transition-colors">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <!-- FEATURE: Sort dropdown -->
+        <div class="relative flex-shrink-0 group">
+          <select id="sort-select"
+            class="appearance-none bg-[#1A1A1A]/50 border border-white/10 rounded-full px-6 py-3 text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 focus:outline-none focus:border-[#E09D3F] focus:bg-[#E09D3F]/5 focus:shadow-[0_0_15px_rgba(224,157,63,0.1)] transition-all cursor-pointer pr-10 backdrop-blur-md hover:border-white/20">
+            <option value="default" class="bg-[#121212] text-white">Sort: Default</option>
+            <option value="az" class="bg-[#121212] text-white">A → Z</option>
+            <option value="za" class="bg-[#121212] text-white">Z → A</option>
+          </select>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-500 group-hover:text-white absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none transition-colors"></i>
+        </div>
+        <!-- FEATURE: Result count -->
+        <div class="hidden lg:flex items-center gap-2 border border-white/10 bg-white/5 rounded-full px-4 py-2.5 backdrop-blur-sm shadow-[inset_0_0_10px_rgba(255,255,255,0.02)]">
+          <div class="w-1.5 h-1.5 bg-[#E09D3F] rounded-full animate-pulse shadow-[0_0_5px_#E09D3F]"></div>
+          <span id="result-count" class="text-[9px] uppercase tracking-[0.3em] text-white font-bold flex-shrink-0">5 Items</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FEATURE: NO RESULTS MESSAGE (hidden by default)
+============================================= -->
+<div id="no-results" class="hidden max-w-7xl mx-auto px-6 py-20 text-center">
+  <div class="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mx-auto mb-6">
+    <i data-lucide="search-x" class="w-6 h-6 text-slate-500"></i>
+  </div>
+  <p class="text-white font-bold text-lg mb-2">No fabrics found</p>
+  <p class="text-slate-500 text-sm">Try a different search or clear the filters.</p>
+  <button onclick="resetFilters()" class="mt-6 text-[10px] uppercase tracking-[0.3em] font-bold text-[#E09D3F] border border-[#E09D3F]/30 px-6 py-2.5 rounded-full hover:bg-[#E09D3F]/10 transition-all">
+    Clear Filters
+  </button>
+</div>
+
+<!-- =============================================
+     PRODUCT GRID
+============================================= -->
+<section class="max-w-7xl mx-auto px-6 py-32 bg-transparent">
+  <div class="mb-20 reveal flex items-end justify-between">
+    <div>
+      <span class="text-[10px] uppercase tracking-[0.6em] text-[#E09D3F] font-bold mb-4 block">Curated Selection</span>
+      <h2 class="text-5xl md:text-6xl serif italic text-white">The <span class="not-italic font-bold">Archive</span></h2>
+    </div>
+    <!-- FEATURE: View toggle grid/list -->
+    <div class="hidden md:flex items-center gap-2 border border-white/10 rounded-full p-1">
+      <button id="view-grid" onclick="setView('grid')" title="Grid view"
+        class="w-8 h-8 rounded-full flex items-center justify-center bg-[#E09D3F]/10 border border-[#E09D3F]/30 text-[#E09D3F] transition-all">
+        <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+      </button>
+      <button id="view-list" onclick="setView('list')" title="List view"
+        class="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-[#E09D3F] transition-all">
+        <i data-lucide="list" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-20">
+
+    <!-- Card 01 - Cotton -->
+    <div class="product-card group reveal" data-category="cotton" data-name="Cotton Fabric" style="transition-delay:100ms">
+      <div class="relative overflow-hidden aspect-[3/4] border border-white/5 bg-[#1A1A1A]">
+        <img src="{% static 'images/p1.jpg' %}"
+             class="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-1000 ease-out group-hover:scale-110"
+             alt="Cotton" />
+        <!-- FEATURE: Category tag -->
+        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">Cotton</div>
+        <!-- FEATURE: Wishlist icon -->
+        <button class="wishlist-btn absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#E09D3F] hover:border-[#E09D3F]/40 transition-all backdrop-blur-sm"
+                data-name="Cotton Fabric" title="Save to wishlist">
+          <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+        </button>
+        <div class="absolute inset-x-0 bottom-0 bg-black/95 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t border-[#E09D3F]/50">
+          <p class="text-[#E09D3F] text-[9px] uppercase tracking-widest mb-3 font-bold">Technical Specs</p>
+          <p class="text-slate-300 text-xs font-light leading-relaxed mb-6">100% Organic, high-tensile long-staple weave for luxury apparel.</p>
+          <a href="{% url 'contact' %}" class="text-white text-[10px] font-bold tracking-[0.2em] border-b border-white/20 pb-1 hover:border-[#E09D3F] hover:text-[#E09D3F] transition-all">REQUEST SAMPLE</a>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-between items-start">
+        <div>
+          <h3 class="serif text-2xl text-white group-hover:text-[#E09D3F] transition-colors duration-500">Cotton Fabric</h3>
+          <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] mt-2">Soft & Breathable</p>
+        </div>
+        <span class="text-slate-700 font-mono text-sm">/ 01</span>
+      </div>
+    </div>
+
+    <!-- Card 02 - Silk -->
+    <div class="product-card group reveal" data-category="silk" data-name="Silk Fabric" style="transition-delay:200ms">
+      <div class="relative overflow-hidden aspect-[3/4] border border-white/5 bg-[#1A1A1A]">
+        <img src="{% static 'images/p2.jpg' %}"
+             class="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-1000 ease-out group-hover:scale-110"
+             alt="Silk" />
+        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">Silk</div>
+        <!-- FEATURE: New badge -->
+        <div class="absolute top-4 left-20 bg-[#E09D3F] text-black text-[8px] font-black uppercase tracking-[0.25em] px-3 py-1 rounded-full">New</div>
+        <button class="wishlist-btn absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#E09D3F] hover:border-[#E09D3F]/40 transition-all backdrop-blur-sm"
+                data-name="Silk Fabric" title="Save to wishlist">
+          <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+        </button>
+        <div class="absolute inset-x-0 bottom-0 bg-black/95 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t border-[#E09D3F]/50">
+          <p class="text-[#E09D3F] text-[9px] uppercase tracking-widest mb-3 font-bold">Technical Specs</p>
+          <p class="text-slate-300 text-xs font-light leading-relaxed mb-6">Mulberry Grade 6A, high-sheen finish for couture drapery.</p>
+          <a href="{% url 'contact' %}" class="text-white text-[10px] font-bold tracking-[0.2em] border-b border-white/20 pb-1 hover:border-[#E09D3F] hover:text-[#E09D3F] transition-all">REQUEST SAMPLE</a>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-between items-start">
+        <div>
+          <h3 class="serif text-2xl text-white group-hover:text-[#E09D3F] transition-colors duration-500">Silk Fabric</h3>
+          <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] mt-2">Luxury Texture</p>
+        </div>
+        <span class="text-slate-700 font-mono text-sm">/ 02</span>
+      </div>
+    </div>
+
+    <!-- Card 03 - Denim -->
+    <div class="product-card group reveal" data-category="denim" data-name="Premium Denim" style="transition-delay:300ms">
+      <div class="relative overflow-hidden aspect-[3/4] border border-white/5 bg-[#1A1A1A]">
+        <img src="{% static 'images/p4.jpg' %}"
+             class="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-1000 ease-out group-hover:scale-110"
+             alt="Denim" />
+        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">Denim</div>
+        <button class="wishlist-btn absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#E09D3F] hover:border-[#E09D3F]/40 transition-all backdrop-blur-sm"
+                data-name="Premium Denim" title="Save to wishlist">
+          <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+        </button>
+        <div class="absolute inset-x-0 bottom-0 bg-black/95 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t border-[#E09D3F]/50">
+          <p class="text-[#E09D3F] text-[9px] uppercase tracking-widest mb-3 font-bold">Technical Specs</p>
+          <p class="text-slate-300 text-xs font-light leading-relaxed mb-6">Reinforced twill, 14oz heavy-duty grade for industrial fashion.</p>
+          <a href="{% url 'contact' %}" class="text-white text-[10px] font-bold tracking-[0.2em] border-b border-white/20 pb-1 hover:border-[#E09D3F] hover:text-[#E09D3F] transition-all">REQUEST SAMPLE</a>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-between items-start">
+        <div>
+          <h3 class="serif text-2xl text-white group-hover:text-[#E09D3F] transition-colors duration-500">Premium Denim</h3>
+          <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] mt-2">Rugged & Durable</p>
+        </div>
+        <span class="text-slate-700 font-mono text-sm">/ 03</span>
+      </div>
+    </div>
+
+    <!-- Card 04 - Industrial -->
+    <div class="product-card group reveal" data-category="industrial" data-name="Industrial Fabric" style="transition-delay:400ms">
+      <div class="relative overflow-hidden aspect-[3/4] border border-white/5 bg-[#1A1A1A]">
+        <img src="{% static 'images/p5.jpg' %}"
+             class="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-1000 ease-out group-hover:scale-110"
+             alt="Industrial" />
+        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">Industrial</div>
+        <button class="wishlist-btn absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#E09D3F] hover:border-[#E09D3F]/40 transition-all backdrop-blur-sm"
+                data-name="Industrial Fabric" title="Save to wishlist">
+          <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+        </button>
+        <div class="absolute inset-x-0 bottom-0 bg-black/95 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t border-[#E09D3F]/50">
+          <p class="text-[#E09D3F] text-[9px] uppercase tracking-widest mb-3 font-bold">Technical Specs</p>
+          <p class="text-slate-300 text-xs font-light leading-relaxed mb-6">Heat resistant, technical weave for specialized engineering.</p>
+          <a href="{% url 'contact' %}" class="text-white text-[10px] font-bold tracking-[0.2em] border-b border-white/20 pb-1 hover:border-[#E09D3F] hover:text-[#E09D3F] transition-all">REQUEST SAMPLE</a>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-between items-start">
+        <div>
+          <h3 class="serif text-2xl text-white group-hover:text-[#E09D3F] transition-colors duration-500">Industrial</h3>
+          <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] mt-2">Technical Use</p>
+        </div>
+        <span class="text-slate-700 font-mono text-sm">/ 04</span>
+      </div>
+    </div>
+
+    <!-- Card 05 - Jacquard -->
+    <div class="product-card group reveal" data-category="jacquard" data-name="Jacquard Weave" style="transition-delay:500ms">
+      <div class="relative overflow-hidden aspect-[3/4] border border-white/5 bg-[#1A1A1A]">
+        <img src="{% static 'images/p3.jpg' %}"
+             class="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-1000 ease-out group-hover:scale-110"
+             alt="Jacquard" />
+        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 text-[8px] uppercase tracking-[0.3em] text-white/70 px-3 py-1.5 rounded-full">Jacquard</div>
+        <!-- FEATURE: Bestseller badge -->
+        <div class="absolute top-4 left-24 bg-white/10 border border-[#E09D3F]/30 text-[#E09D3F] text-[8px] font-black uppercase tracking-[0.25em] px-3 py-1 rounded-full backdrop-blur-sm">Bestseller</div>
+        <button class="wishlist-btn absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#E09D3F] hover:border-[#E09D3F]/40 transition-all backdrop-blur-sm"
+                data-name="Jacquard Weave" title="Save to wishlist">
+          <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+        </button>
+        <div class="absolute inset-x-0 bottom-0 bg-black/95 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t border-[#E09D3F]/50">
+          <p class="text-[#E09D3F] text-[9px] uppercase tracking-widest mb-3 font-bold">Technical Specs</p>
+          <p class="text-slate-300 text-xs font-light leading-relaxed mb-6">CNC Jacquard, 10,000+ hook patterns, custom motif weaving for luxury fashion.</p>
+          <a href="{% url 'contact' %}" class="text-white text-[10px] font-bold tracking-[0.2em] border-b border-white/20 pb-1 hover:border-[#E09D3F] hover:text-[#E09D3F] transition-all">REQUEST SAMPLE</a>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-between items-start">
+        <div>
+          <h3 class="serif text-2xl text-white group-hover:text-[#E09D3F] transition-colors duration-500">Jacquard Weave</h3>
+          <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] mt-2">Master Pattern</p>
+        </div>
+        <span class="text-slate-700 font-mono text-sm">/ 05</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FEATURE: Load more placeholder -->
+  <div class="mt-24 text-center" id="load-more-area">
+    <p class="text-[9px] uppercase tracking-[0.4em] text-slate-600 mb-6">Showing 5 of 5 archives</p>
+    <div class="w-full max-w-xs mx-auto h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+  </div>
+</section>
+
+<!-- =============================================
+     FEATURE: WISHLIST TOAST NOTIFICATION
+============================================= -->
+<div id="wishlist-toast"
+  class="fixed bottom-32 left-1/2 -translate-x-1/2 z-[600] flex items-center gap-3 bg-[#1a1a1a] border border-[#E09D3F]/30 rounded-full px-6 py-3.5 shadow-2xl opacity-0 pointer-events-none transition-all duration-500 whitespace-nowrap">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#E09D3F"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+  <span id="toast-text" class="text-white text-[10px] font-bold uppercase tracking-[0.2em]">Saved to wishlist</span>
+</div>
+
+
+
+<!-- =============================================
+     BESPOKE / CTA SECTION
+============================================= -->
+<section class="relative bg-transparent py-32 overflow-hidden border-t border-white/5">
+  <div class="max-w-5xl mx-auto px-6 relative z-10 text-center">
+    <div class="reveal mb-10">
+      <h2 class="text-5xl md:text-7xl serif italic text-white mb-12">
+        Beyond the <br />
+        <span class="not-italic font-bold text-[#E09D3F]">Archive</span>
+      </h2>
+      <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-16 leading-relaxed font-light italic serif">
+        "Our looms are capable of translating any digital motif into a high-density Jacquard reality. If you don't see the weave you need, we will engineer it."
+      </p>
+    </div>
+
+    <div class="bg-white/5 border border-white/10 p-12 md:p-20 rounded-lg reveal">
+      <div class="grid md:grid-cols-2 gap-12 items-center text-left">
+        <div>
+          <h3 class="text-white text-3xl font-bold mb-6 uppercase tracking-tighter italic serif">Bespoke Projects</h3>
+          <ul class="space-y-4 text-slate-500 text-sm font-light">
+            <li class="flex items-center gap-4"><span class="w-1.5 h-1.5 bg-[#E09D3F] rounded-full flex-shrink-0"></span> Custom Pantone Dyeing</li>
+            <li class="flex items-center gap-4"><span class="w-1.5 h-1.5 bg-[#E09D3F] rounded-full flex-shrink-0"></span> Proprietary Weave Patterns</li>
+            <li class="flex items-center gap-4"><span class="w-1.5 h-1.5 bg-[#E09D3F] rounded-full flex-shrink-0"></span> Private Label Finishing</li>
+            <li class="flex items-center gap-4"><span class="w-1.5 h-1.5 bg-[#E09D3F] rounded-full flex-shrink-0"></span> NDA-protected Design Work</li>
+          </ul>
+        </div>
+        <div class="flex flex-col gap-4">
+          <a href="/contact/" class="bg-[#E09D3F] text-black px-12 py-5 rounded-full text-center uppercase tracking-widest text-xs font-bold hover:bg-white transition-all shadow-xl shadow-amber-500/10">
+            Start Custom Project
+          </a>
+          <a href="/manufacturing/" class="border border-white/15 text-white px-12 py-5 rounded-full text-center uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-black transition-all">
+            See Our Process
+          </a>
+          <p class="text-[9px] uppercase tracking-widest text-slate-600 text-center font-bold">MOQ applies for custom manufacturing</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     STYLES
+============================================= -->
+<style>
+  .serif { font-family: "Playfair Display", serif; }
+  .animate-marquee { display: inline-block; animation: marquee-scroll 40s linear infinite; }
+  @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .scale-animation { animation: kenburns 30s infinite alternate; }
+  @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+  /* Active filter tab */
+  .active-tab {
+    border-color: #E09D3F !important;
+    color: #E09D3F !important;
+    background: rgba(224,157,63,0.1) !important;
+  }
+
+  /* Filter fade */
+  .product-card { transition: opacity 0.4s ease, transform 0.4s ease; }
+
+  /* Wishlist heart active */
+  .wishlist-btn.saved svg { fill: #E09D3F; stroke: #E09D3F; }
+  .wishlist-btn.saved { border-color: rgba(224,157,63,0.5) !important; color: #E09D3F !important; }
+
+  /* List view */
+  #product-grid.list-view {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  #product-grid.list-view .product-card {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 24px 0;
+  }
+  #product-grid.list-view .product-card > div:first-child {
+    width: 120px;
+    min-width: 120px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+  }
+  #product-grid.list-view .product-card > div:first-child img { object-position: center; }
+  #product-grid.list-view .product-card .mt-8 { margin-top: 0; flex: 1; }
+</style>
+
+<!-- =============================================
+     SCRIPTS
+============================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const cards      = Array.from(document.querySelectorAll('.product-card'));
+    const filterBtns = document.querySelectorAll('.filter-tab');
+    const searchInput  = document.getElementById('product-search');
+    const sortSelect   = document.getElementById('sort-select');
+    const countEl      = document.getElementById('result-count');
+    const noResults    = document.getElementById('no-results');
+    const grid         = document.getElementById('product-grid');
+
+    let activeFilter = 'all';
+    let searchQuery  = '';
+
+    /* ---- FILTER + SEARCH + SORT ---- */
+    function applyFilters() {
+        let visible = cards.filter(card => {
+            const matchFilter = activeFilter === 'all' || card.dataset.category === activeFilter;
+            const matchSearch  = card.dataset.name.toLowerCase().includes(searchQuery.toLowerCase())
+                              || card.dataset.category.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchFilter && matchSearch;
+        });
+
+        // Sort
+        const sort = sortSelect.value;
+        if (sort === 'az') visible.sort((a,b) => a.dataset.name.localeCompare(b.dataset.name));
+        if (sort === 'za') visible.sort((a,b) => b.dataset.name.localeCompare(a.dataset.name));
+
+        const visibleSet = new Set(visible);
+        cards.forEach(card => {
+            const show = visibleSet.has(card);
+            card.style.opacity    = show ? '1' : '0.15';
+            card.style.transform  = show ? 'scale(1)' : 'scale(0.97)';
+            card.style.pointerEvents = show ? 'all' : 'none';
+        });
+
+        countEl.textContent = visible.length + ' Item' + (visible.length !== 1 ? 's' : '');
+        noResults.classList.toggle('hidden', visible.length > 0);
+        grid.classList.toggle('hidden', visible.length === 0);
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active-tab'));
+            btn.classList.add('active-tab');
+            activeFilter = btn.dataset.filter;
+            applyFilters();
+        });
+    });
+
+    searchInput.addEventListener('input', () => { searchQuery = searchInput.value; applyFilters(); });
+    sortSelect.addEventListener('change', applyFilters);
+
+    /* ---- VIEW TOGGLE ---- */
+    lucide.createIcons();
+
+    /* ---- WISHLIST ---- */
+    const toast   = document.getElementById('wishlist-toast');
+    const toastTxt = document.getElementById('toast-text');
+    let toastTimer;
+
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const name = btn.dataset.name;
+            const isSaved = btn.classList.toggle('saved');
+
+            // Update icon
+            const icon = btn.querySelector('svg');
+            if (isSaved) {
+                icon.setAttribute('fill', '#E09D3F');
+            } else {
+                icon.setAttribute('fill', 'none');
+            }
+
+            // Toast
+            toastTxt.textContent = isSaved ? name + ' saved to wishlist' : name + ' removed';
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2800);
+        });
+    });
+});
+
+/* ---- Reset filters ---- */
+function resetFilters() {
+    document.querySelector('[data-filter="all"]').click();
+    document.getElementById('product-search').value = '';
+    document.getElementById('sort-select').value = 'default';
+}
+
+/* ---- Grid / List view toggle ---- */
+function setView(mode) {
+    const grid    = document.getElementById('product-grid');
+    const btnGrid = document.getElementById('view-grid');
+    const btnList = document.getElementById('view-list');
+
+    if (mode === 'list') {
+        grid.classList.add('list-view');
+        btnList.classList.add('bg-[#E09D3F]/10', 'border-[#E09D3F]/30', 'text-[#E09D3F]');
+        btnList.classList.remove('text-slate-500');
+        btnGrid.classList.remove('bg-[#E09D3F]/10', 'border-[#E09D3F]/30', 'text-[#E09D3F]');
+        btnGrid.classList.add('text-slate-500');
+    } else {
+        grid.classList.remove('list-view');
+        btnGrid.classList.add('bg-[#E09D3F]/10', 'border-[#E09D3F]/30', 'text-[#E09D3F]');
+        btnGrid.classList.remove('text-slate-500');
+        btnList.classList.remove('bg-[#E09D3F]/10', 'border-[#E09D3F]/30', 'text-[#E09D3F]');
+        btnList.classList.add('text-slate-500');
+    }
+}
+</script>
+
+{% endblock %}

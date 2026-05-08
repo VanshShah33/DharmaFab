@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="min-h-screen flex items-center justify-center bg-transparent px-6 relative overflow-hidden">
+    
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#E09D3F]/5 blur-[120px] rounded-full"></div>
+
+    <div class="w-full max-w-[420px] relative z-10">
+
+        <div class="text-center mb-16 reveal">
+            <div class="inline-flex items-center gap-3 px-3 py-1 border border-[#E09D3F]/20 mb-8 rounded-full">
+                <span class="w-1 h-1 rounded-full bg-[#E09D3F] animate-pulse"></span>
+                <span class="text-[9px] uppercase tracking-[0.5em] text-[#E09D3F] font-bold">Secure Node</span>
+            </div>
+            <h1 class="text-5xl serif italic text-white leading-tight">
+                System <br> <span class="not-italic font-bold tracking-tighter uppercase text-white">Access</span>
+            </h1>
+        </div>
+
+        <div class="relative group reveal" style="transition-delay: 150ms;">
+            
+            <div class="absolute -top-3 -left-3 w-6 h-6 border-t border-l border-[#E09D3F]/30 group-hover:border-[#E09D3F] transition-colors duration-700"></div>
+            <div class="absolute -bottom-3 -right-3 w-6 h-6 border-b border-r border-[#E09D3F]/30 group-hover:border-[#E09D3F] transition-colors duration-700"></div>
+
+            <form method="POST" action="{% url 'login' %}" 
+                  class="bg-white/5 backdrop-blur-2xl p-12 border border-white/5 space-y-12 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
+                
+                {% csrf_token %}
+
+                <div class="relative">
+                    <input type="text" name="username" required
+                           class="peer w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-[#E09D3F] transition-colors placeholder-transparent text-xs tracking-widest uppercase font-bold">
+                    <label class="absolute left-0 top-4 text-[9px] uppercase tracking-[0.4em] text-slate-500 pointer-events-none transition-all peer-focus:-top-5 peer-focus:text-[#E09D3F] peer-[:not(:placeholder-shown)]:-top-5">
+                        Admin Identifier
+                    </label>
+                </div>
+
+                <div class="relative">
+                    <input type="password" name="password" required
+                           class="peer w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-[#E09D3F] transition-colors placeholder-transparent text-xs tracking-widest uppercase font-bold">
+                    <label class="absolute left-0 top-4 text-[9px] uppercase tracking-[0.4em] text-slate-500 pointer-events-none transition-all peer-focus:-top-5 peer-focus:text-[#E09D3F] peer-[:not(:placeholder-shown)]:-top-5">
+                        Security Cipher
+                    </label>
+                </div>
+
+                {% if messages %}
+                    <div class="p-4 bg-red-500/5 border border-red-500/20">
+                        {% for message in messages %}
+                            <p class="text-red-400 text-[9px] uppercase tracking-[0.3em] font-bold text-center italic">
+                                Auth Error: {{ message }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <button type="submit"
+                        class="group relative w-full py-5 bg-[#E09D3F] text-black overflow-hidden transition-all duration-500 rounded-full hover:shadow-[0_0_40px_rgba(224,157,63,0.2)]">
+                    <span class="relative z-10 text-[10px] uppercase tracking-[0.6em] font-bold">Initialize Session</span>
+                    <div class="absolute inset-0 bg-white translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                </button>
+
+            </form>
+        </div>
+
+        <div class="mt-16 flex justify-between items-center opacity-30 reveal" style="transition-delay: 300ms;">
+            <span class="text-[8px] font-mono text-slate-500 tracking-widest uppercase">Enc: TLS 1.3 / AES-256</span>
+            <div class="w-12 h-[1px] bg-white/10"></div>
+            <span class="text-[8px] font-mono text-slate-500 tracking-widest uppercase">Station: SURAT-MAIN-01</span>
+        </div>
+
+    </div>
+
+</section>
+
+<style>
+    .serif { font-family: 'Playfair Display', serif; }
+    /* Ensure background remains dark regardless of global styles */
+    body { background-color: #121212 !important; }
+</style>
+
+{% endblock %}
