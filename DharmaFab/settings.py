@@ -154,6 +154,11 @@ WHITENOISE_USE_FINDERS = True
 # Vercel-specific fixes
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app']
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False').lower() == 'true'
+SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '0'))
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'user_dashboard'
