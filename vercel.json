@@ -2,11 +2,19 @@
   "version": 2,
   "builds": [
     {
+      "src": "staticfiles/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "DharmaFab/wsgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "DharmaFab/wsgi.py"

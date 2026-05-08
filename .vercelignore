@@ -8,6 +8,5 @@ __pycache__/
 *.pyc
 db.sqlite3
 media/
-staticfiles/
 DharmaFab-1/
 *.zip
